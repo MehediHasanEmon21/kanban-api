@@ -19,7 +19,7 @@ class TaskController extends Controller
             $tasks = Task::asc()->get();
             return $this->success(false, 'Tasks List Found Successfully', $tasks);
         } catch (Exception $e) {
-            return $this->success(true, $e->getMessage(), null);
+            return $this->error(true, $e->getMessage(), null);
         }
     }
 
@@ -27,31 +27,22 @@ class TaskController extends Controller
     {
         try {
             $task = Task::create($request->validated());
-            if ($task) {
-                return $this->success(false, 'Task Created Successfully', $task);
-            } else {
-                return $this->success(true, 'Task Cretion Error', null);
-            }
+            return $this->success(false, 'Task Created Successfully', $task);
         } catch (Exception $e) {
-            return $this->success(true, $e->getMessage(), null);
+            return $this->error(true, $e->getMessage(), null);
         }
     }
 
     public function update(Request $request)
     {
-        $task = Task::find($request->id);
         try {
-            $task = Task::find($request->id);
-            if ($task) {
-                $task->update([
-                    'status' => $request->status
-                ]);
-                return $this->success(false, 'Task Updated Successfully', $task);
-            } else {
-                return $this->success(true, 'Task Update Error', null);
-            }
+            $task = Task::findOrFail($request->id);
+            $task->update([
+                'status' => $request->status
+            ]);
+            return $this->success(false, 'Task Updated Successfully', $task);
         } catch (Exception $e) {
-            return $this->success(true, $e->getMessage(), null);
+            return $this->error(true, $e->getMessage(), null);
         }
     }
 }
