@@ -19,6 +19,6 @@ Route::prefix('v1/task')->group(function(){
 
     Route::get('/',[TaskController::class,'index']);
     Route::post('/create',[TaskController::class,'store']);
-    Route::put('/update/{id}',[TaskController::class,'update']);
+    Route::put('/update',[TaskController::class,'update']);
     
 });

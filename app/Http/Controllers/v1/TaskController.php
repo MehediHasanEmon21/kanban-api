@@ -16,7 +16,7 @@ class TaskController extends Controller
     public function index()
     {
         try {
-            $tasks = Task::desc()->get();
+            $tasks = Task::asc()->get();
             return $this->success(false, 'Tasks List Found Successfully', $tasks);
         } catch (Exception $e) {
             return $this->success(true, $e->getMessage(), null);
@@ -25,7 +25,6 @@ class TaskController extends Controller
 
     public function store(TaskCreateRequest $request)
     {
-
         try {
             $task = Task::create($request->validated());
             if ($task) {
@@ -38,11 +37,11 @@ class TaskController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-
+        $task = Task::find($request->id);
         try {
-            $task = Task::find($id);
+            $task = Task::find($request->id);
             if ($task) {
                 $task->update([
                     'status' => $request->status

@@ -11,7 +11,7 @@ trait ScopeTraits{
 
     public function scopeAsc($query)
     {
-        return $query->orderBy('id','asc');
+        return $query->orderBy('updated_at','asc');
     }
 
 }
